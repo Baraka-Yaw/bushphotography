@@ -25,7 +25,9 @@ export function WorkFilters({
   onChange: (next: WorkFilter) => void;
 }) {
   return (
-    <div className="panel panel-soft px-5 py-5 sm:px-7 sm:py-6">
+    // A green rule down the leading edge and a faint green wash tie the filter
+    // bar to the accent without turning it into a slab of colour.
+    <div className="panel panel-soft border-l-4 border-l-accent bg-accent/[0.04] px-5 py-5 sm:px-7 sm:py-6">
       <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5">
         {availableCategories.length > 1 ? (
         <div className="flex flex-wrap items-center gap-1">
@@ -57,7 +59,8 @@ export function WorkFilters({
         ) : null}
 
         <p aria-live="polite" className="text-xs text-muted">
-          {resultCount} {resultCount === 1 ? "project" : "projects"}
+          <span className="font-display text-lg text-accent">{resultCount}</span>{" "}
+          {resultCount === 1 ? "project" : "projects"}
         </p>
       </div>
 
@@ -78,10 +81,12 @@ export function WorkFilters({
                 })
               }
               className={cn(
-                "chip pill min-h-9 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.14em] transition-colors",
+                "chip pill min-h-9 px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] transition-colors",
+                // Selected is a solid green block; idle chips carry a green
+                // rule and text that deepen on hover.
                 active
-                  ? "border-accent bg-accent/12 text-accent"
-                  : "text-muted hover:text-fg",
+                  ? "border-accent bg-accent text-on-accent"
+                  : "border-accent/35 text-accent hover:border-accent hover:bg-accent/10",
               )}
             >
               {tag}
@@ -93,7 +98,7 @@ export function WorkFilters({
           <button
             type="button"
             onClick={() => onChange({})}
-            className="min-h-9 px-3 text-[11px] uppercase tracking-[0.14em] text-muted underline underline-offset-4 transition-colors hover:text-fg"
+            className="min-h-9 px-3 text-[11px] uppercase tracking-[0.14em] text-muted underline underline-offset-4 transition-colors hover:text-accent"
           >
             Reset
           </button>
