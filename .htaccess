@@ -1,0 +1,18 @@
+# Stopgap only. The docroot for this vhost is the repo root, so LiteSpeed serves
+# source files directly — /.git/config and /src/... were publicly readable.
+# These rules block that. Once `context /` proxies to the Node server, requests
+# stop touching the filesystem and this file becomes redundant, but it is
+# harmless to keep as defence in depth.
+
+RewriteEngine On
+
+# Dotfiles and dot-directories: .git, .env*, .next. ACME challenge is exempt.
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule (^|/)\. - [F,L]
+
+# Source, tooling and dependency trees.
+RewriteRule ^(src|scripts|deploy|node_modules)/ - [F,L]
+
+# Manifests, configs, docs and the stray archive.
+RewriteRule ^(package\.json|package-lock\.json|tsconfig\.json|next\.config\.ts|next-env\.d\.ts|eslint\.config\.mjs|postcss\.config\.mjs)$ - [F,L]
+RewriteRule \.(md|ts|tsx|mjs|zip)$ - [F,L]

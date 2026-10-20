@@ -1,0 +1,48 @@
+# Install to /etc/systemd/system/obiyo.service
+#
+#   sudo cp deploy/obiyo.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now obiyo
+
+[Unit]
+Description=Obiyo portfolio (Next.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=obiyo
+Group=obiyo
+WorkingDirectory=/var/www/obiyo
+
+# Invoke Next's binary through node directly rather than `npm start`.
+# npm sits between systemd and the server and does not reliably forward SIGTERM,
+# which Next needs in order to drain in-flight requests on restart.
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
+
+Environment=NODE_ENV=production
+# Runtime env comes from .env.production in WorkingDirectory, which Next loads
+# itself. Anything genuinely secret can go in an EnvironmentFile instead:
+# EnvironmentFile=/etc/obiyo.env
+
+Restart=always
+RestartSec=5
+
+# Give Next time to finish in-flight requests and run any after() callbacks.
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+# Hardening. The app only ever reads from its own directory; the one thing it
+# must be able to write is the .next cache.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/obiyo/.next
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=obiyo
+
+[Install]
+WantedBy=multi-user.target

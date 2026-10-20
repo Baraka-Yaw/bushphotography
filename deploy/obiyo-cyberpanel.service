@@ -1,0 +1,47 @@
+# systemd unit for the CyberPanel/LiteSpeed box, where the app lives in the
+# vhost docroot and runs as the vhost user.
+#
+# This differs from deploy/obiyo.service, which targets a plain nginx VPS at
+# /var/www/obiyo. Use that one there, this one here.
+#
+#   sudo cp deploy/obiyo-cyberpanel.service /etc/systemd/system/obiyo.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now obiyo
+
+[Unit]
+Description=Obiyo portfolio (Next.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=obiyo2159
+Group=obiyo2159
+WorkingDirectory=/home/obiyoshots.com/public_html
+
+# Absolute path to nvm's Node. The system node is 12.22, far below the >=20.9
+# Next 16 needs — resolving `node` from PATH under systemd would find that one
+# and fail. Update this if the nvm version changes.
+ExecStart=/home/obiyoshots.com/.nvm/versions/node/v26.6.0/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 4300
+
+Environment=NODE_ENV=production
+# Runtime env comes from .env.production in WorkingDirectory, loaded by Next.
+
+Restart=always
+RestartSec=5
+
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=false
+ReadWritePaths=/home/obiyoshots.com/public_html/.next
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=obiyo
+
+[Install]
+WantedBy=multi-user.target
