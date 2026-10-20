@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { getPackages, getSiteSettings } from "@/lib/content";
+import { getActiveTags, getPackages, getSiteSettings } from "@/lib/content";
 import { buildPackageWhatsAppUrl, formatCedis } from "@/lib/contact";
 import { buildWorkHref, cn } from "@/lib/utils";
 
@@ -21,7 +21,11 @@ export const metadata: Metadata = {
  * already says honestly when nothing is connected.
  */
 export default async function PackagesPage() {
-  const [packages, settings] = await Promise.all([getPackages(), getSiteSettings()]);
+  const [packages, settings, activeTags] = await Promise.all([
+    getPackages(),
+    getSiteSettings(),
+    getActiveTags(),
+  ]);
 
   return (
     <Container wide className="pb-8 pt-16 sm:pt-24">
@@ -83,7 +87,8 @@ export default async function PackagesPage() {
                 <ButtonLink href={bookHref} external={Boolean(settings.whatsapp)}>
                   Book {settings.whatsapp ? "on WhatsApp" : "now"}
                 </ButtonLink>
-                {pkg.tag ? (
+                {/* Only when there is work to show — never a link to an empty grid. */}
+                {pkg.tag && activeTags.includes(pkg.tag) ? (
                   <ButtonLink href={buildWorkHref({ tag: pkg.tag })} variant="ghost">
                     See examples
                   </ButtonLink>

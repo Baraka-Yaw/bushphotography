@@ -23,4 +23,5 @@ export const categoryTiles: CategoryTileSource[] = [
   { name: "Portraits", slug: "portraits", tag: "Portrait" },
   { name: "Corporate", slug: "corporate", tag: "Corporate" },
   { name: "Parties", slug: "parties", tag: "Party" },
+  { name: "Concerts", slug: "concerts", tag: "Concert" },
 ];

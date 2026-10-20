@@ -35,7 +35,9 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             // Tells the browser to start fetching this before it finishes parsing
             // the rest of the document.
             fetchPriority="high"
-            className="h-full w-full object-cover"
+            // Biased upward: the client's work is portrait-format, and a centred
+            // crop to a wide hero cuts through faces.
+            className="h-full w-full object-cover object-[50%_30%]"
           />
         )}
         <div aria-hidden="true" className="scrim absolute inset-0" />

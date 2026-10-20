@@ -16,6 +16,7 @@ export const PROJECT_TYPES = [
   "Portrait session",
   "Corporate event",
   "Party / celebration",
+  "Concert / stage",
   "Something else",
 ] as const;
 

@@ -7,4 +7,4 @@ To replace: drop the real image in at the same path (or update the `src` in
 `src/data/projects.ts`), set the true `width`/`height`, and write a real `alt`.
 Then run `npm run check:media` to confirm nothing is dangling.
 
-42 files generated.
+4 files generated.

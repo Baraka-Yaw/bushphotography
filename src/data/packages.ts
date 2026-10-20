@@ -1,9 +1,8 @@
 /**
  * Booking packages, rendered on /packages.
  *
- * REAL: the two prices the client has published on Instagram — ₵500 graduation
- * and ₵4,500 for a group of ten. Their inclusions are only partly visible in the
- * promo graphics ("8 edited …" on the graduation one), so `includes` is a draft.
+ * REAL: the two packages the client advertises on Instagram — ₵500 graduation
+ * with 8 edited pictures, and ₵4,500 for a group of ten with 10 pictures each.
  *
  * TODO: every other package has no `priceGhs` and shows "Price on request" —
  * confirm figures and inclusions with the client rather than guessing.
@@ -18,7 +17,7 @@ export const packages: Package[] = [
     priceGhs: 500,
     unit: "Per graduate",
     summary: "Solo graduation portraits on the day or in the studio.",
-    includes: ["8 edited photographs", "Retouching included", "Digital delivery"], // TODO: confirm
+    includes: ["8 edited pictures", "Retouching included"],
     tag: "Graduation",
   },
   {
@@ -27,7 +26,7 @@ export const packages: Package[] = [
     priceGhs: 4500,
     unit: "For ten graduates",
     summary: "Group and individual portraits for ten friends graduating together.",
-    includes: ["Group photographs", "Individual portraits for each graduate", "Retouching included"], // TODO: confirm
+    includes: ["10 pictures for each graduate", "Group photographs", "Retouching included"],
     tag: "Graduation",
     highlight: true,
   },

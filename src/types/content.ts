@@ -16,7 +16,8 @@ export type Tag =
   | "Graduation"
   | "Portrait"
   | "Corporate"
-  | "Party";
+  | "Party"
+  | "Concert";
 
 export const CATEGORIES: readonly Category[] = ["photography", "videography"];
 
@@ -27,6 +28,7 @@ export const TAGS: readonly Tag[] = [
   "Portrait",
   "Corporate",
   "Party",
+  "Concert",
 ];
 
 /**

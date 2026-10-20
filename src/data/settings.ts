@@ -4,12 +4,11 @@
  *
  * ⚠️ PARTLY PLACEHOLDER. What is real comes from the client's Instagram
  * (@bushphotography_official): the name, the services and the Instagram link.
- * Everything marked TODO is waiting on the client and must be filled in before
- * launch:
+ * The phone numbers are the two printed on his package promos (0502450192 and
+ * 0530824543); the first is used for WhatsApp — confirm with Kofi that it is
+ * the WhatsApp line. Everything marked TODO is waiting on the client and must
+ * be filled in before launch:
  *   - `email` uses the reserved `.example` domain, so it can never deliver.
- *   - `phone` is a dummy number.
- *   - `whatsapp` is unset, so the contact form honestly reports it is not
- *     connected and package "Book" buttons fall back to /contact.
  *   - `location` is the country only.
  *   - the About bio is drafted from the Instagram bio, not written by him.
  *
@@ -24,20 +23,21 @@ export const siteSettings: SiteSettings = {
   name: "Bush Photography",
   tagline: "Weddings · Portraits · Events",
   heroHeadline: "Your day, kept beautifully.",
+  // Real photograph, shared with the First Kiss project rather than copied.
   heroMedia: {
     kind: "image",
-    src: "/placeholder/placeholder-hero.jpg",
-    alt: "Placeholder — the hero photograph is still to be supplied",
-    width: 2400,
-    height: 1350,
+    src: "/work/first-kiss/first-kiss-01.jpg",
+    alt: "Bride in a strapless white dress holding a bouquet of white roses, kissing the groom in a white tuxedo jacket among garden greenery",
+    width: 1440,
+    height: 1800,
   },
   email: "bookings@bushphotography.example", // TODO: client's real address
-  phone: "+233 (0) 000000000", // TODO: client's real number
+  // Display string; `telHref()` drops the "(0)" trunk prefix to dial.
+  phone: "+233 (0) 50 245 0192",
   location: "Ghana", // TODO: city
-  // TODO: wa.me form — country code, digits only, no "+", no trunk 0.
-  // e.g. 0554462572 → "233554462572". Contact enquiries and package bookings
-  // are delivered here once it is set.
-  whatsapp: undefined,
+  // 0502450192 in wa.me form: trunk 0 dropped, Ghana's 233 prefixed, no "+".
+  // Contact enquiries and package bookings are delivered here.
+  whatsapp: "233502450192",
   socials: [
     {
       label: "Instagram",

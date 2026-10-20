@@ -127,12 +127,8 @@ const SHAPE = {
  * every media path referenced in the data files actually exists here.
  */
 const PROJECTS = [
-  { slug: "ama-and-kwame-wedding", title: "Ama & Kwame", shape: "portrait", gallery: 6 },
-  { slug: "adwoa-traditional-marriage", title: "Adwoa's Knocking", shape: "landscape", gallery: 6 },
-  { slug: "class-of-2026", title: "Class of 2026", shape: "portrait", gallery: 5 },
-  { slug: "studio-portraits", title: "Studio Portraits", shape: "portrait", gallery: 5 },
-  { slug: "annual-awards-night", title: "Annual Awards Night", shape: "landscape", gallery: 5 },
-  { slug: "thirtieth-birthday", title: "Thirtieth", shape: "landscape", gallery: 5 },
+  // Empty: every project in `src/data/projects.ts` uses real media from
+  // `public/work/`.
 ];
 
 async function main() {
