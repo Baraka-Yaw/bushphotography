@@ -31,6 +31,33 @@ export const siteSettings: SiteSettings = {
     width: 1440,
     height: 1800,
   },
+  // The banner rotates through colour wedding, concert, and black-and-white
+  // wedding. Each is shared with its project rather than copied.
+  heroSlides: [
+    {
+      kind: "image",
+      src: "/work/first-kiss/first-kiss-01.jpg",
+      alt: "Bride in a strapless white dress holding a bouquet of white roses, kissing the groom in a white tuxedo jacket among garden greenery",
+      width: 1440,
+      height: 1800,
+    },
+    {
+      kind: "image",
+      src: "/work/katon-praise/katon-praise-05.jpg",
+      alt: "Singer in yellow with arms open in front of a blazing orange screen at the Katon Praise concert",
+      width: 1440,
+      height: 1800,
+    },
+    // Not the executive headshot: it is a tight close-up, and the banner's
+    // headline would run straight across his face.
+    {
+      kind: "image",
+      src: "/work/in-white/in-white-01.jpg",
+      alt: "Black-and-white frame of a couple in white walking hand in hand across a garden",
+      width: 1440,
+      height: 1639,
+    },
+  ],
   email: "bookings@bushphotography.example", // TODO: client's real address
   // Display string; `telHref()` drops the "(0)" trunk prefix to dial.
   phone: "+233 (0) 50 245 0192",

@@ -146,6 +146,11 @@ export type SiteSettings = {
   heroHeadline: string;
   /** Image or video — the homepage hero renders whichever it is given. */
   heroMedia: ImageRef | VideoRef;
+  /**
+   * Optional rotation for the homepage banner. With two or more images the
+   * banner crossfades through them and `heroMedia` is not used.
+   */
+  heroSlides?: ImageRef[];
   email: string;
   phone: string;
   location: string;

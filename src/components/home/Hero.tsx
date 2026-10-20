@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { HeroSlideshow } from "@/components/home/HeroSlideshow";
 import { ProjectVideo } from "@/components/media/ProjectVideo";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -18,7 +19,8 @@ const SERVICES = [
 ];
 
 /**
- * Homepage banner: the photograph full-bleed, the headline set huge across its
+ * Homepage banner: the photograph full-bleed — or, with `heroSlides`, a
+ * crossfading rotation of them (`<HeroSlideshow>`) — the headline set huge across its
  * lower edge, and a green strip beneath it running the list of services.
  *
  * The text sits on a scrim, so it is wrapped in `.on-media` to keep the light
@@ -30,12 +32,15 @@ const SERVICES = [
  */
 export function Hero({ settings }: { settings: SiteSettings }) {
   const media = settings.heroMedia;
+  const slides = settings.heroSlides ?? [];
 
   return (
     <section>
       <div className="relative flex min-h-[78svh] items-end overflow-hidden sm:min-h-[86svh]">
         <div className="absolute inset-0">
-          {media.kind === "video" ? (
+          {slides.length > 1 ? (
+            <HeroSlideshow slides={slides} />
+          ) : media.kind === "video" ? (
             <ProjectVideo
               media={media}
               mode="background"
@@ -67,7 +72,9 @@ export function Hero({ settings }: { settings: SiteSettings }) {
         </div>
 
         <Container wide className="on-media relative pb-10 pt-40 sm:pb-14">
-          <p className="eyebrow">{settings.tagline}</p>
+          {/* Ivory, not the accent: the slides change colour underneath, and
+              green vanishes on the orange concert frame. */}
+          <p className="eyebrow text-fg">{settings.tagline}</p>
           <h1 className="mt-4 max-w-5xl font-display text-[clamp(3rem,12vw,9.5rem)]">
             {settings.heroHeadline}
           </h1>
