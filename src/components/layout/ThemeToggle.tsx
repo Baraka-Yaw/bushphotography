@@ -161,7 +161,7 @@ export function ThemeToggle() {
       // to know the choice.
       aria-label={`Colour theme: ${current.label}. Switch to ${upcoming.label}.`}
       title={`Theme: ${current.label}`}
-      className="glass-inset glass-pill flex h-11 w-11 items-center justify-center text-muted transition-colors hover:text-fg"
+      className="chip pill flex h-11 w-11 items-center justify-center text-muted transition-colors hover:text-fg"
     >
       {OPTIONS.map(({ value, Icon }) => (
         <span

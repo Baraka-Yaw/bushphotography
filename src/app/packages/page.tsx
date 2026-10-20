@@ -50,7 +50,7 @@ export default async function PackagesPage() {
             <li
               key={pkg.slug}
               className={cn(
-                "glass glass-soft flex flex-col px-6 py-8",
+                "panel panel-soft flex flex-col px-6 py-8",
                 pkg.highlight && "border-accent/45",
               )}
             >

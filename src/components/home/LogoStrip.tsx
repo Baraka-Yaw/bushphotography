@@ -32,7 +32,7 @@ export function LogoStrip({ logos }: { logos: ClientLogo[] }) {
       {/* The band spans the viewport; the Container keeps the heading on the
           same gutter as the rest of the page, while the marquee below runs the
           full width so logos enter and leave at the screen edge. */}
-      <div className="glass glass-band py-10">
+      <div className="panel band py-10">
         <Container wide>
           <h2 className="eyebrow text-center">Selected clients</h2>
         </Container>
@@ -58,7 +58,7 @@ function LogoRow({
     <ul className="logo-marquee-row" {...props}>
       {logos.map((logo) => {
         const plate = (
-          <span className="flex h-16 w-28 items-center justify-center rounded-glass-sm bg-logo-plate p-3 opacity-85 transition-opacity duration-300 hover:opacity-100 sm:h-20 sm:w-36 sm:p-4">
+          <span className="flex h-16 w-28 items-center justify-center rounded-panel-sm bg-logo-plate p-3 opacity-85 transition-opacity duration-300 hover:opacity-100 sm:h-20 sm:w-36 sm:p-4">
             <Image
               src={resolveImage(logo.logo)}
               alt={logo.name}

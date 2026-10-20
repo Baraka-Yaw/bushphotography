@@ -73,7 +73,7 @@ export function ProjectVideo({
         <button
           type="button"
           onClick={() => setEmbedActivated(true)}
-          className={cn("glass-media group relative block w-full", className)}
+          className={cn("frame group relative block w-full", className)}
         >
           <Image
             src={resolveImage(media.poster)}
@@ -95,7 +95,7 @@ export function ProjectVideo({
     }
 
     return (
-      <div className={cn("glass-media relative aspect-video w-full", className)}>
+      <div className={cn("frame relative aspect-video w-full", className)}>
         <iframe
           src={`${resolveEmbed(media)}?autoplay=1`}
           title="Project video"
@@ -138,7 +138,7 @@ function PlayGlyph() {
       aria-hidden="true"
       // `on-media` because the plate is dark in both themes — without it the
       // glyph would be near-black on near-black in light mode.
-      className="on-media glass-plate flex h-20 w-20 items-center justify-center rounded-full text-fg transition-transform duration-300 group-hover:scale-105"
+      className="on-media caption-plate flex h-20 w-20 items-center justify-center rounded-full text-fg transition-transform duration-300 group-hover:scale-105"
     >
       <svg width="20" height="24" viewBox="0 0 20 24" fill="currentColor">
         <path d="M0 0l20 12L0 24z" />

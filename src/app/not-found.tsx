@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 export default function NotFound() {
   return (
     <Container className="flex min-h-[60svh] flex-col items-center justify-center py-24">
-      <div className="glass glass-soft w-full max-w-2xl px-6 py-20 text-center sm:px-12">
+      <div className="panel panel-soft w-full max-w-2xl px-6 py-20 text-center sm:px-12">
         <p className="eyebrow">404</p>
         <h1 className="mt-4 font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.05]">
           Page not found

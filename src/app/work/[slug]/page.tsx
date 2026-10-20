@@ -53,12 +53,12 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
       <Container wide>
         <Link
           href="/work"
-          className="glass-inset glass-pill inline-block px-4 py-2 text-xs uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
+          className="chip pill inline-block px-4 py-2 text-xs uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
         >
           ← All work
         </Link>
 
-        <header className="glass glass-soft mt-8 grid gap-8 px-6 py-8 sm:px-9 sm:py-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+        <header className="panel panel-soft mt-8 grid gap-8 px-6 py-8 sm:px-9 sm:py-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div>
             <p className="eyebrow">{categoryLabel(project.category)}</p>
             <h1 className="mt-3 font-display text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.05]">
@@ -82,7 +82,7 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
           up, rather than rendering an empty player. */}
       <Container wide className="mt-10">
         {project.video ? (
-          <div className="glass-media">
+          <div className="frame">
             <ProjectVideo media={project.video} priority className="w-full" />
           </div>
         ) : (
@@ -93,7 +93,7 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
             height={project.cover.height}
             sizes={IMAGE_SIZES.full}
             priority
-            className="glass-media h-auto w-full object-cover"
+            className="frame h-auto w-full object-cover"
           />
         )}
       </Container>
@@ -108,7 +108,7 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
       ) : null}
 
       <Container wide className="mt-16">
-        <div className="glass glass-soft px-6 py-8 sm:px-9 sm:py-10">
+        <div className="panel panel-soft px-6 py-8 sm:px-9 sm:py-10">
           <h2 className="eyebrow border-b border-line/60 pb-4">Credits</h2>
           <dl className="mt-6 grid gap-x-12 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             <div>

@@ -16,30 +16,29 @@ export function CategoryTiles({ tiles }: { tiles: CategoryTile[] }) {
   if (tiles.length === 0) return null;
 
   return (
-    <Container wide as="section" className="mt-24">
-      <SectionHeading eyebrow="What I shoot" title="Browse by category" />
+    <Container wide as="section" className="mt-24 sm:mt-32">
+      <SectionHeading eyebrow="What I shoot" title="By occasion" />
 
-      <ul className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+      <ul className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-4">
         {tiles.map((tile) => (
           <li key={tile.slug}>
-            <Link
-              href={buildWorkHref(tile.filter)}
-              className="glass-media group relative block"
-            >
-              <Image
-                src={resolveImage(tile.cover)}
-                alt=""
-                width={tile.cover.width}
-                height={tile.cover.height}
-                sizes={IMAGE_SIZES.tile}
-                className="aspect-[3/4] w-full object-cover opacity-70 transition-all duration-500 ease-out group-hover:scale-105 group-hover:opacity-100"
-              />
-              <span aria-hidden="true" className="scrim-tile absolute inset-0" />
-              {/* `glass-plate` rather than `glass`: the fill has to be dark in
-                  both themes to hold white text over an arbitrary photograph.
-                  `on-media` puts the label itself on the dark palette. */}
-              <span className="on-media glass-plate absolute inset-x-2 bottom-2 block p-2.5 text-center text-xs uppercase tracking-[0.16em] text-fg sm:inset-x-3 sm:bottom-3 sm:p-3">
+            <Link href={buildWorkHref(tile.filter)} className="group block">
+              <span className="frame block">
+                <Image
+                  src={resolveImage(tile.cover)}
+                  alt=""
+                  width={tile.cover.width}
+                  height={tile.cover.height}
+                  sizes={IMAGE_SIZES.tile}
+                  className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+              </span>
+              {/* Label on the page, under the photograph — no plate, no scrim. */}
+              <span className="mt-3 flex items-center justify-between border-t border-fg pt-3 font-display text-xl transition-colors group-hover:text-accent sm:text-2xl">
                 {tile.name}
+                <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
               </span>
             </Link>
           </li>

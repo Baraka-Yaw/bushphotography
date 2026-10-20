@@ -33,7 +33,7 @@ export default async function ContactPage() {
       <div className="mt-14 grid gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20">
         <ContactForm />
 
-        <aside className="glass glass-soft h-fit space-y-10 px-6 py-8 sm:px-8">
+        <aside className="panel panel-soft h-fit space-y-10 px-6 py-8 sm:px-8">
           <div>
             <h2 className="eyebrow border-b border-line/60 pb-3">Direct</h2>
             <ul className="mt-4 space-y-3">
@@ -70,7 +70,7 @@ export default async function ContactPage() {
                       rel="noopener noreferrer"
                       data-social={social.label.toLowerCase()}
                       className={cn(
-                        "social-link glass-inset glass-pill flex min-h-11 items-center justify-center transition-colors",
+                        "social-link chip pill flex min-h-11 items-center justify-center transition-colors",
                         icon ? "w-11" : "px-4 text-sm text-muted hover:text-accent",
                       )}
                     >

@@ -77,7 +77,7 @@ export function WorkBrowser({ projects }: { projects: ProjectSummary[] }) {
       {visible.length > 0 ? (
         <ProjectGrid projects={visible} className="mt-10" priorityCount={3} />
       ) : (
-        <div className="glass glass-soft mt-16 px-6 py-16 text-center">
+        <div className="panel panel-soft mt-16 px-6 py-16 text-center">
           <p className="font-display text-2xl">Nothing here yet</p>
           <p className="mt-2 text-sm text-muted">
             No projects match this combination of filters.
@@ -85,7 +85,7 @@ export function WorkBrowser({ projects }: { projects: ProjectSummary[] }) {
           <button
             type="button"
             onClick={() => apply({})}
-            className="glass-inset glass-pill mt-6 min-h-11 border-accent/40 px-5 text-xs uppercase tracking-[0.18em] text-accent transition-opacity hover:opacity-70"
+            className="chip pill mt-6 min-h-11 border-accent/40 px-5 text-xs uppercase tracking-[0.18em] text-accent transition-opacity hover:opacity-70"
           >
             Clear filters
           </button>

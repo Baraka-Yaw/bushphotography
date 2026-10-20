@@ -105,14 +105,21 @@ highest-leverage factor for the spec's ~2s mobile target.
 
 **Design tokens live in one place.** [src/app/globals.css](src/app/globals.css) — components
 reference `bg-bg`, `text-muted`, `border-line`, `text-accent` and never a literal colour,
-which is why light mode needed no per-component `dark:` variants. Fonts are the two
-`next/font` calls at the top of [src/app/layout.tsx](src/app/layout.tsx). The accent is the
-spec's placeholder and has **two** values — `#c9a96a` for dark, `#8a6a2b` for light, because
-the gold is ~1.9:1 on near-white and fails AA. Replacing it with the client's real brand
-colour means setting both.
+which is why dark mode needed no per-component `dark:` variants. Fonts are the two
+`next/font` calls at the top of [src/app/layout.tsx](src/app/layout.tsx) — Oswald (display,
+always uppercase via the `.font-display` rule) and DM Sans. The accent is deep green with
+**two** values — `#1f4d3a` on the light palette, `#8cc7a4` on dark, because the dark green
+is ~2:1 on ink and fails AA. Changing the accent means setting both.
 
-**Theming: dark is the default, and `prefers-color-scheme` is deliberately absent.** The
-site is dark by design, so an unset visitor — and a visitor with JS disabled — gets dark
+**This site must not look like Obiyo Shots.** It was forked from that client's code, so the
+visual system was deliberately replaced: light editorial (ivory/ink/green), flat hairline
+surfaces with no blur, square geometry, a split hero, captions *under* photographs, a
+masonry wall on the homepage. The class vocabulary was renamed too (`panel`, `chip`, `pill`,
+`frame`, `field`, `band`, `bar`, `caption-plate`, `interactive` — Obiyo's are `glass-*`).
+Don't port Obiyo design changes across wholesale.
+
+**Theming: light is the default, and `prefers-color-scheme` is deliberately absent.** The
+site is light by design, so an unset visitor — and a visitor with JS disabled — gets light
 whatever their OS says. The OS only gets a vote once someone picks *System* in the switcher.
 Don't "fix" this by adding a `prefers-color-scheme` media query; that silently reverts the
 default. Two attributes live on `<html>`, and the split matters:

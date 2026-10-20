@@ -12,11 +12,11 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    // A full-bleed glass band closing the page. `border-b-0` because it ends at
+    // A full-bleed panel band closing the page. `border-b-0` because it ends at
     // the bottom of the document — a rule there would draw a hairline along the
     // edge of the viewport with nothing beneath it to separate from.
     <footer className="mt-24">
-      <div className="glass glass-band border-b-0 py-14">
+      <div className="panel band border-b-0 py-14">
         <Container wide>
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
@@ -81,7 +81,7 @@ export async function Footer() {
                         // has no brand colour, so it keeps `text-muted`.
                         data-social={social.label.toLowerCase()}
                         className={cn(
-                          "social-link glass-inset glass-pill flex min-h-11 items-center justify-center transition-colors",
+                          "social-link chip pill flex min-h-11 items-center justify-center transition-colors",
                           // Square for a glyph, padded for the text fallback.
                           icon ? "w-11" : "px-4 text-sm text-muted hover:text-accent",
                         )}

@@ -25,7 +25,7 @@ export function WorkFilters({
   onChange: (next: WorkFilter) => void;
 }) {
   return (
-    <div className="glass glass-soft px-5 py-5 sm:px-7 sm:py-6">
+    <div className="panel panel-soft px-5 py-5 sm:px-7 sm:py-6">
       <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5">
         {availableCategories.length > 1 ? (
         <div className="flex flex-wrap items-center gap-1">
@@ -78,7 +78,7 @@ export function WorkFilters({
                 })
               }
               className={cn(
-                "glass-inset glass-pill min-h-9 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.14em] transition-colors",
+                "chip pill min-h-9 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.14em] transition-colors",
                 active
                   ? "border-accent bg-accent/12 text-accent"
                   : "text-muted hover:text-fg",
@@ -118,7 +118,7 @@ function FilterButton({
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "glass-pill relative min-h-11 border px-4 py-2 text-xs uppercase tracking-[0.18em] transition-colors",
+        "pill relative min-h-11 border px-4 py-2 text-xs uppercase tracking-[0.18em] transition-colors",
         active
           ? "border-transparent bg-accent/12 text-fg"
           : "border-transparent text-muted hover:text-fg",

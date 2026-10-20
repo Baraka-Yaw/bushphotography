@@ -35,10 +35,10 @@ export default async function AboutPage() {
           height={about.portrait.height}
           sizes={IMAGE_SIZES.portrait}
           priority
-          className="glass-media h-auto w-full object-cover"
+          className="frame h-auto w-full object-cover"
         />
 
-        <div className="glass glass-soft h-fit px-6 py-8 sm:px-9 sm:py-10">
+        <div className="panel panel-soft h-fit px-6 py-8 sm:px-9 sm:py-10">
           <div className="space-y-5 text-base leading-relaxed text-muted">
             {about.bio.map((paragraph) => (
               <p key={paragraph.slice(0, 40)}>{paragraph}</p>
@@ -74,7 +74,7 @@ export default async function AboutPage() {
           // than the viewport. Crop the *display* to a band; the intrinsic
           // width/height in the data stay true to the file, which is what
           // `next/image` needs to reserve layout and what `check:media` asserts.
-          className="glass-media aspect-[4/3] w-full object-cover"
+          className="frame aspect-[4/3] w-full object-cover"
         />
         <figcaption className="mt-3 text-xs text-muted">On set.</figcaption>
       </figure>
@@ -84,13 +84,13 @@ export default async function AboutPage() {
       {about.showreel ? (
         <section className="mt-20">
           <h2 className="eyebrow border-b border-line/60 pb-4">Showreel</h2>
-          <div className="glass-media mt-6">
+          <div className="frame mt-6">
             <ProjectVideo media={about.showreel} className="w-full" />
           </div>
         </section>
       ) : null}
 
-      <p className="glass glass-sm mt-20 px-5 py-4 text-sm text-muted">
+      <p className="panel panel-sm mt-20 px-5 py-4 text-sm text-muted">
         Based in {settings.location}. Available for work worldwide.
       </p>
     </Container>

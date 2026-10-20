@@ -16,6 +16,7 @@ import type {
   AboutContent,
   CategoryTile,
   ClientLogo,
+  ImageRef,
   Package,
   Project,
   ProjectSummary,
@@ -125,6 +126,28 @@ export async function getCategories(): Promise<CategoryTile[]> {
     const source = newestFirst.find((p) => p.tags.includes(tag));
     return source ? [{ name, slug, cover: source.cover, filter: { tag } }] : [];
   });
+}
+
+/** One frame on the homepage photo wall, with the project it opens. */
+export type WallPhoto = { image: ImageRef; slug: string; title: string };
+
+/**
+ * Frames for the homepage masonry wall, dealt round-robin across projects
+ * (newest first) so no single shoot takes over the top of the page.
+ */
+export async function getPhotoWall(limit = 16): Promise<WallPhoto[]> {
+  const queues = [...projects]
+    .sort(byDateDesc)
+    .map((p) => ({ p, frames: [...(p.gallery ?? [p.cover])] }));
+  const wall: WallPhoto[] = [];
+  while (wall.length < limit && queues.some((q) => q.frames.length > 0)) {
+    for (const q of queues) {
+      const image = q.frames.shift();
+      if (image) wall.push({ image, slug: q.p.slug, title: q.p.title });
+      if (wall.length === limit) break;
+    }
+  }
+  return wall;
 }
 
 export async function getPackages(): Promise<Package[]> {

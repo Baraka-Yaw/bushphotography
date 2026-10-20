@@ -95,19 +95,19 @@ export function Lightbox({
       }}
       // The viewer itself stays near-opaque — a photograph is the subject here,
       // and anything showing through would compete with it. The chrome bars are
-      // where the glass lives.
+      // where the panel lives.
       className="m-0 h-full max-h-none w-full max-w-none bg-bg/88 p-0 text-fg backdrop-blur-xl backdrop:bg-transparent"
     >
       {current ? (
         <div className="flex h-full flex-col">
-          <div className="glass glass-sm m-3 flex items-center justify-between px-4 py-2">
+          <div className="panel panel-sm m-3 flex items-center justify-between px-4 py-2">
             <p className="text-xs uppercase tracking-[0.18em] text-muted">
               {(index ?? 0) + 1} / {images.length}
             </p>
             <button
               type="button"
               onClick={onClose}
-              className="glass-inset glass-pill flex h-11 w-11 items-center justify-center text-fg"
+              className="chip pill flex h-11 w-11 items-center justify-center text-fg"
             >
               <span className="sr-only">Close viewer</span>
               <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
@@ -132,11 +132,11 @@ export function Lightbox({
           </div>
 
           {images.length > 1 ? (
-            <div className="glass glass-sm m-3 flex items-center justify-between gap-4 px-3 py-2">
+            <div className="panel panel-sm m-3 flex items-center justify-between gap-4 px-3 py-2">
               <button
                 type="button"
                 onClick={() => go(-1)}
-                className="glass-inset glass-pill min-h-11 px-4 text-xs uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
+                className="chip pill min-h-11 px-4 text-xs uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
               >
                 ← Previous
               </button>
@@ -144,7 +144,7 @@ export function Lightbox({
               <button
                 type="button"
                 onClick={() => go(1)}
-                className="glass-inset glass-pill min-h-11 px-4 text-xs uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
+                className="chip pill min-h-11 px-4 text-xs uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
               >
                 Next →
               </button>

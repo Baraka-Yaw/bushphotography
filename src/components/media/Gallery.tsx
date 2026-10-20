@@ -28,7 +28,7 @@ export function Gallery({ images }: { images: ImageRef[] }) {
             <button
               type="button"
               onClick={() => setOpenIndex(index)}
-              className="glass-media group block w-full cursor-zoom-in"
+              className="frame group block w-full cursor-zoom-in"
             >
               <Image
                 src={resolveImage(image)}

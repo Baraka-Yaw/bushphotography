@@ -29,29 +29,20 @@ export function ProjectTile({
         preview={project.preview}
         sizes={IMAGE_SIZES.grid}
         priority={priority}
-        className="glass-media aspect-[4/5] w-full"
-      >
-        <div
-          aria-hidden="true"
-          className="scrim-tile pointer-events-none absolute inset-0 opacity-80 transition-opacity duration-500 group-hover:opacity-100"
-        />
+        className="frame aspect-[4/5] w-full"
+      />
 
-        {/* Sits on the scrim over the cover image, so it keeps the dark palette
-            in both themes — see `.on-media` in globals.css. `glass-plate` is the
-            over-photography glass: a dark tint in both themes, because a light
-            one would blow out the image and lose the white text on top of it. */}
-        <div className="on-media glass-plate pointer-events-none absolute inset-x-3 bottom-3 p-4">
-          <p className="text-[10px] uppercase tracking-[0.18em] text-accent">
-            {categoryLabel(project.category)}
-          </p>
-          <h3 className="mt-1.5 font-display text-2xl leading-tight text-fg">
-            {project.title}
-          </h3>
-          <p className="mt-1 text-xs text-muted">
-            {project.tags.join(" · ")} — {formatYear(project.date)}
-          </p>
-        </div>
-      </HoverPreview>
+      {/* Caption on the page under the photograph, magazine-style — not on a
+          plate over it — so it reads in both themes with no scrim. */}
+      <div className="mt-3 flex items-baseline justify-between gap-4 border-t border-fg pt-3">
+        <h3 className="font-display text-2xl transition-colors group-hover:text-accent">
+          {project.title}
+        </h3>
+        <p className="shrink-0 text-xs text-muted">{formatYear(project.date)}</p>
+      </div>
+      <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted">
+        {project.tags.join(" · ")}
+      </p>
 
       <Link href={`/work/${project.slug}`} className="absolute inset-0">
         {/* The overlay link has no text content of its own, so give it an

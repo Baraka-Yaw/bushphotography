@@ -1,50 +1,44 @@
 @import "tailwindcss";
 
 /*
-  Design tokens — spec Section 5.1.
+  Design tokens — Bush Photography's light editorial system.
 
   Everything in the app references these names (bg-bg, text-muted, border-line,
-  text-accent), so re-theming for the client's real brand is an edit here and
-  nowhere else. The accent in particular is a placeholder and is expected to be
-  replaced with the client's brand color.
+  text-accent), so re-theming is an edit here and nowhere else.
 
-  Dark is the base palette — the site is dark by design, so that is what an
-  unset visitor and a no-JavaScript visitor both get. Light is an opt-in
-  override further down. Because every component reads the semantic name rather
-  than a literal colour, adding light mode needed no per-component `dark:`
-  variants — the variables change value and the whole site follows.
+  LIGHT IS THE BASE PALETTE: warm ivory paper, near-black ink, and a deep green
+  accent. Dark is an opt-in from the theme switcher. Because every component
+  reads the semantic name rather than a literal colour, neither theme needs
+  per-component `dark:` variants — the variables change value and the whole
+  site follows.
 
-  The literals live in `--dark-*` on :root rather than here, so that `.on-media`
-  can re-assert the dark set inside a light page without a second copy of them.
+  The dark literals live in `--dark-*` on :root so that `.on-media` can
+  re-assert them over photography inside a light page without a second copy.
 
-  The same split now covers the glass layer: `--glass-*` names the *active*
-  glass surface, `--dark-glass-*` holds the dark literals, and `.on-media`
-  re-points the former at the latter.
+  No pure #fff or #000 anywhere: the ivory and the ink are both warmed, which
+  is what keeps the page reading as printed paper rather than a screen.
 */
 @theme {
-  --color-bg: var(--dark-bg);
-  --color-surface: var(--dark-surface);
-  --color-fg: var(--dark-fg);
-  --color-muted: var(--dark-muted);
-  --color-line: var(--dark-line);
-  --color-accent: var(--dark-accent);
+  --color-bg: #f6f2ea;
+  --color-surface: #fbf8f2;
+  --color-fg: #17150f;
+  --color-muted: #5f5a50;
+  --color-line: #d9d1c2;
+  /* Deep green: 9.6:1 on the ivory, so it is safe for body-size text, focus
+     rings and the skip link — not only for large display type. */
+  --color-accent: #1f4d3a;
+  /* Text that sits on an accent fill (primary buttons, the skip link). */
+  --color-on-accent: #f6f2ea;
 
-  /*
-    The plate third-party client logos are drawn on.
+  /* Plate for third-party client logos — light in both themes, since supplied
+     marks are designed for a light ground. */
+  --color-logo-plate: #f2efe8;
 
-    Deliberately near-white in *both* themes, and deliberately not
-    `--color-surface`. Supplied brand marks are whatever the brand sent — opaque
-    JPEGs on white, transparent PNGs of black wordmarks — and every one of them
-    is designed to sit on a light ground. On the dark surface they would be
-    white squares and invisible wordmarks in the same row.
-  */
-  --color-logo-plate: #f2f0ec;
-
-  /* Radii for the glass system. Exposed through @theme so the components can
-     say `rounded-glass` / `rounded-media` instead of a literal length. */
-  --radius-glass: 1.125rem;
-  --radius-glass-sm: 0.75rem;
-  --radius-media: 1rem;
+  /* Editorial geometry: nearly square. The hairline does the separating that
+     a radius and a shadow did on the old system. */
+  --radius-panel: 0.25rem;
+  --radius-panel-sm: 0.125rem;
+  --radius-media: 0.125rem;
 }
 
 /* `inline` so Tailwind resolves the next/font variables at build time. */
@@ -54,130 +48,42 @@
 }
 
 @layer base {
-  /*
-    The dark palette, defined once, in two roles: it backs the default theme
-    above, and `.on-media` re-applies it over photography inside a light page.
-  */
   :root {
-    --dark-bg: #0a0a0a;
-    --dark-surface: #131313;
-    --dark-fg: #f5f5f5;
-    --dark-muted: #8c8c8c;
-    --dark-line: #2a2a2a;
-    --dark-accent: #c9a96a;
+    /* The dark palette, in two roles: the opt-in dark theme, and `.on-media`
+       over photography inside a light page. */
+    --dark-bg: #12110e;
+    --dark-surface: #1a1915;
+    --dark-fg: #f1ece2;
+    --dark-muted: #a39d90;
+    --dark-line: #34312a;
+    /* The green lifted for a dark ground — #1f4d3a would be ~2:1 here. */
+    --dark-accent: #8cc7a4;
+    --dark-on-accent: #12110e;
 
-    /*
-      Glass literals for the dark palette.
-
-      A glass surface is four things stacked, and all four are needed or it
-      reads as "a box with some blur": a barely-there tint, a blurred and
-      *saturated* backdrop (the saturation is what makes colour bleed through
-      and sells the material), a bright specular edge along the top, and a soft
-      shadow underneath so it floats rather than sits.
-    */
-    --dark-glass-fill: rgb(255 255 255 / 0.055);
-    --dark-glass-fill-strong: rgb(255 255 255 / 0.1);
-    --dark-glass-edge: rgb(255 255 255 / 0.12);
-    --dark-glass-edge-strong: rgb(255 255 255 / 0.24);
-    --dark-glass-specular: rgb(255 255 255 / 0.3);
-    --dark-glass-shade: rgb(0 0 0 / 0.22);
-    --dark-glass-shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 14px 34px -14px rgb(0 0 0 / 0.7);
-
-    --glass-fill: var(--dark-glass-fill);
-    --glass-fill-strong: var(--dark-glass-fill-strong);
-    --glass-edge: var(--dark-glass-edge);
-    --glass-edge-strong: var(--dark-glass-edge-strong);
-    --glass-specular: var(--dark-glass-specular);
-    --glass-shade: var(--dark-glass-shade);
-    --glass-shadow: var(--dark-glass-shadow);
-    --glass-blur: 20px;
-    --glass-saturate: 175%;
-
-    /*
-      Social brand colours, for the icons in the footer and on /contact.
-
-      Kept out of the semantic palette on purpose: these are third-party marks,
-      not part of the site's design language, so they must not be reachable as
-      `text-accent` or friends and get used for anything else.
-
-      Vimeo is the one that needed adjusting — its official #1AB7EA is 7.8:1 on
-      the dark pill but only 2.29:1 on the light one, under the 3:1 WCAG floor
-      for meaningful graphics. The light value below is the nearest cyan that
-      clears it at 4.5:1. The other three pass on both grounds unmodified.
-    */
-    --brand-instagram: #e4405f;
-    --brand-behance: #1769ff;
-    --brand-vimeo: #1ab7ea;
-    --brand-youtube: #ff0000;
-
-    /*
-      The wash the glass refracts. Glass over a flat fill is invisible — there
-      has to be something behind it with colour and structure for the blur and
-      the saturation boost to have anything to work on. These are the three
-      slow-drifting pools painted behind every page.
-    */
-    --ambient-1: rgb(201 169 106 / 0.13);
-    --ambient-2: rgb(96 132 184 / 0.1);
-    --ambient-3: rgb(201 169 106 / 0.07);
-
-    color-scheme: dark;
-  }
-
-  /*
-    Light. Reached two ways, both of which end in `data-theme="light"` on <html>:
-    an explicit Light choice, or System resolving to light. Nothing here keys off
-    `prefers-color-scheme` directly — the OS only gets a say once the visitor has
-    chosen System, which is what keeps dark the default on a light machine.
-  */
-  :root[data-theme="light"] {
-    --color-bg: #faf9f7;
-    --color-surface: #ffffff;
-    --color-fg: #14130f;
-    --color-muted: #6b6862;
-    --color-line: #e3ded4;
-    /* Darker than the dark-mode gold: #c9a96a on near-white is ~1.9:1 and fails
-       AA. This is 4.8:1, which matters because the accent is used for body-sized
-       text, focus outlines and the skip link. */
-    --color-accent: #8a6a2b;
-
-    /* Light glass is the inverse trick: a *heavier* white tint, because on a
-       near-white page a 5% film would vanish. The edge darkens instead of
-       lightening, and the specular highlight goes to near-opaque white. */
-    --glass-fill: rgb(255 255 255 / 0.55);
-    --glass-fill-strong: rgb(255 255 255 / 0.76);
-    --glass-edge: rgb(20 19 15 / 0.09);
-    --glass-edge-strong: rgb(20 19 15 / 0.16);
-    --glass-specular: rgb(255 255 255 / 0.85);
-    --glass-shade: rgb(20 19 15 / 0.05);
-    --glass-shadow: 0 1px 1px rgb(20 19 15 / 0.04), 0 12px 32px -14px rgb(20 19 15 / 0.28);
-    --glass-saturate: 185%;
-
-    --ambient-1: rgb(138 106 43 / 0.1);
-    --ambient-2: rgb(96 132 184 / 0.1);
-    --ambient-3: rgb(138 106 43 / 0.06);
-
-    /* See the note on the dark values: official Vimeo cyan is 2.29:1 here. */
-    --brand-vimeo: #0e7fa3;
+    --brand-instagram: #c13584;
 
     color-scheme: light;
+  }
+
+  :root[data-theme="dark"] {
+    --color-bg: var(--dark-bg);
+    --color-surface: var(--dark-surface);
+    --color-fg: var(--dark-fg);
+    --color-muted: var(--dark-muted);
+    --color-line: var(--dark-line);
+    --color-accent: var(--dark-accent);
+    --color-on-accent: var(--dark-on-accent);
+    --brand-instagram: #e4609b;
+    color-scheme: dark;
   }
 
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
-    /*
-      The page background lives on <html>, not <body>, so `body::before` can
-      paint the ambient wash above it. A background on <body> would be painted
-      in the block-background phase — i.e. on top of its own negative-z-index
-      pseudo-element — and the wash would never be seen.
-    */
     background-color: var(--color-bg);
-    /* Softens the swap when the theme changes. The reduced-motion block below
-       turns it off. */
     transition: background-color 200ms ease;
   }
 
-  /* Honour the OS setting rather than animating scroll for everyone. */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -196,81 +102,45 @@
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    /* Scoped to <body> rather than `*` so it never interferes with
-       hover/animation work elsewhere. */
     transition: color 200ms ease;
   }
 
   /*
-    The ambient wash: three soft pools of colour behind everything, drifting
-    slowly. This is what every glass surface on the site is actually refracting,
-    and it is why the header reads as glass over a flat section of page and not
-    just over photography.
-
-    `z-index: -1` puts it behind all content but above the canvas background
-    (which comes from <html>). It is inert — no pointer events, no layout.
+    The display face is a condensed grotesque set in capitals — the single
+    biggest thing that separates this site's voice from a serif portfolio.
+    Applied wherever `font-display` is, so call sites need no extra classes.
   */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: -15%;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(38rem 38rem at 18% 12%, var(--ambient-1), transparent 62%),
-      radial-gradient(32rem 32rem at 82% 22%, var(--ambient-2), transparent 60%),
-      radial-gradient(40rem 40rem at 50% 92%, var(--ambient-3), transparent 62%);
-    animation: ambient-drift 48s ease-in-out infinite alternate;
+  .font-display {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    line-height: 0.98;
   }
 
-  @keyframes ambient-drift {
-    from {
-      transform: translate3d(-1.5%, -1%, 0) scale(1);
-    }
-    to {
-      transform: translate3d(1.5%, 1.5%, 0) scale(1.06);
-    }
-  }
-
-  /* A single visible focus treatment for every interactive element. The spec
-     requires keyboard-navigable menus and lightbox; this is what makes that
-     navigation actually followable. */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
   ::selection {
     background-color: var(--color-accent);
-    color: var(--color-bg);
+    color: var(--color-on-accent);
   }
 }
 
 @layer components {
-  /* Editorial eyebrow label used above section headings. */
+  /* Small capitals label above section headings. */
   .eyebrow {
     font-size: 0.6875rem;
-    letter-spacing: 0.18em;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: var(--color-accent);
   }
 
   /*
-    Content sitting on top of photography (under a `.scrim`).
-
-    Photographs get a dark scrim in both themes, so anything drawn over one must
-    keep using the dark palette regardless of the active theme — otherwise the
-    hero headline turns near-black on a near-black gradient in light mode.
-
-    Re-mapping the tokens on the wrapper means the children keep using plain
-    `text-fg` / `text-muted` / `text-accent` / `.eyebrow` and inherit the right
-    values automatically. Custom properties resolve from the nearest ancestor
-    that sets them, so this beats the `:root` definitions for its subtree.
-
-    The glass tokens are re-pointed for the same reason: a light-mode glass
-    plate (55% white) dropped onto a photograph would blow out the image and
-    leave its own white text unreadable.
+    Content sitting on top of photography (under a `.scrim`). Photographs get a
+    dark scrim in both themes, so anything over one keeps the dark palette.
   */
   .on-media {
     --color-bg: var(--dark-bg);
@@ -279,352 +149,176 @@
     --color-muted: var(--dark-muted);
     --color-line: var(--dark-line);
     --color-accent: var(--dark-accent);
-
-    --glass-fill: var(--dark-glass-fill);
-    --glass-fill-strong: var(--dark-glass-fill-strong);
-    --glass-edge: var(--dark-glass-edge);
-    --glass-edge-strong: var(--dark-glass-edge-strong);
-    --glass-specular: var(--dark-glass-specular);
-    --glass-shade: var(--dark-glass-shade);
-    --glass-shadow: var(--dark-glass-shadow);
-
+    --color-on-accent: var(--dark-on-accent);
     color: var(--color-fg);
   }
 
   /* ------------------------------------------------------------------ */
-  /* Glass                                                               */
+  /* Surfaces                                                            */
   /* ------------------------------------------------------------------ */
 
   /*
-    The base material. Everything else in this section is a variation on it.
-
-    `::before` carries the specular sheet — a highlight pooling at the top-left
-    corner, which is what reads as a curved edge catching light. It is a
-    pseudo-element rather than a second background layer so that the fill can
-    still be overridden per-variant without losing the highlight.
-
-    Note: `<input>`, `<select>` and `<textarea>` cannot render pseudo-elements,
-    which is why `.glass-field` below is a separate, self-contained rule rather
-    than a modifier on this one.
+    A panel is paper on paper: a slightly lighter sheet with a hairline rule.
+    No blur, no shadow, no highlight — on this palette the hairline alone
+    carries the structure, and the photographs carry the colour.
   */
-  .glass {
+  .panel {
     position: relative;
-    /* Forces a stacking context so the `z-index: -1` specular sheets below stay
-       inside this element. `backdrop-filter` already creates one, but not in the
-       two fallback paths at the bottom of this file where the filter is dropped. */
-    isolation: isolate;
-    border: 1px solid var(--glass-edge);
-    border-radius: var(--radius-glass);
-    background-color: var(--glass-fill);
-    /* No hand-written `-webkit-` alias anywhere in this file: Lightning CSS
-       (Tailwind v4's compiler) prefixes from the browserslist targets, and
-       spelling the alias out makes it collapse the pair down to the prefixed
-       form alone — which would drop the blur on every non-WebKit engine. */
-    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-    box-shadow:
-      var(--glass-shadow),
-      inset 0 1px 0 0 var(--glass-specular),
-      inset 0 -1px 0 0 var(--glass-shade);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-panel);
+    background-color: var(--color-surface);
   }
 
-  .glass::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    /* Below the content, above the fill: a positioned pseudo at z-index 0 would
-       paint *after* the element's own inline text and tint the label. */
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    background:
-      radial-gradient(140% 90% at 12% -20%, var(--glass-specular), transparent 55%),
-      linear-gradient(to bottom, var(--glass-fill), transparent 60%);
-    opacity: 0.55;
+  /* Modal sheets and the mobile nav: fully opaque page colour. */
+  .panel-strong {
+    background-color: var(--color-bg);
   }
 
-  /* Denser fill for surfaces that have to stay readable over anything at all:
-     modal panels, the mobile nav sheet, the lightbox chrome. */
-  .glass-strong {
-    background-color: var(--glass-fill-strong);
-    border-color: var(--glass-edge-strong);
-    --glass-blur: 28px;
+  .panel-soft {
+    border-radius: var(--radius-panel);
   }
 
-  /* Large page panels — a wider, softer blur so a full-width block doesn't turn
-     into a milk pane. */
-  .glass-soft {
-    --glass-blur: 32px;
-    border-radius: calc(var(--radius-glass) * 1.4);
+  .panel-sm {
+    border-radius: var(--radius-panel-sm);
   }
 
-  .glass-sm {
-    border-radius: var(--radius-glass-sm);
-    --glass-blur: 14px;
-  }
-
-  /*
-    Edge-to-edge band — a full-bleed section of glass (the client strip, the
-    footer).
-
-    Same reasoning as `.glass-bar` below: once a panel spans the viewport its
-    left and right edges have nothing to sit against, so rounded corners and side
-    borders only leave stray hairlines at the screen edge. Horizontal rules top
-    and bottom are what separate it from the sections above and below; drop one
-    with `border-t-0` / `border-b-0` where the band meets the end of the page.
-  */
-  .glass-band {
+  /* Full-bleed band: rules top and bottom only. */
+  .band {
     border-radius: 0;
     border-width: 1px 0;
   }
 
-  .glass-band::before {
-    background: linear-gradient(to bottom, var(--glass-specular), transparent 60%);
-    opacity: 0.12;
-  }
-
-  /*
-    Edge-to-edge bar — the sticky header.
-
-    Square corners and a single bottom border, because a rounded, outlined
-    rectangle only reads as a floating pane when there is page visible around it.
-    Spanning the viewport, the left/right/top edges have nothing to sit against,
-    so drawing them just puts stray hairlines in the corners of the screen. The
-    blur, the fill and the drop shadow are what carry the material here.
-  */
-  .glass-bar {
+  /* The sticky header: page-coloured, a single bottom rule. */
+  .bar {
     border-radius: 0;
     border-width: 0 0 1px 0;
+    background-color: color-mix(in srgb, var(--color-bg) 94%, transparent);
   }
 
-  /* The corner highlight belongs on a small floating pane; stretched across a
-     full-width bar it reads as a smear. A flat top-down sheen instead. */
-  .glass-bar::before {
-    background: linear-gradient(to bottom, var(--glass-specular), transparent 70%);
-    opacity: 0.14;
+  /* Button / chip geometry. Square-shouldered rather than round. */
+  .pill {
+    border-radius: var(--radius-panel-sm);
   }
 
-  /* Pill geometry — the theme switcher, buttons, chips. */
-  .glass-pill {
-    border-radius: 999px;
-  }
-
-  /*
-    A control that lives *inside* another glass surface — the theme rail in the
-    header, chips inside a glass panel.
-
-    Deliberately has no `backdrop-filter` of its own: stacking a second blur on
-    top of an already-blurred backdrop compounds into a milky patch and costs a
-    second full-surface filter pass. Tint and specular edge alone are enough to
-    read as glass once the parent has done the blurring.
-  */
-  .glass-inset {
+  /* A control inside another surface: just the rule. */
+  .chip {
     position: relative;
-    border: 1px solid var(--glass-edge);
-    border-radius: var(--radius-glass-sm);
-    background-color: var(--glass-fill);
-    box-shadow: inset 0 1px 0 0 var(--glass-specular);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-panel-sm);
+    background-color: transparent;
   }
 
-  /*
-    Interactive glass: a specular sweep that travels across the surface on hover
-    or keyboard focus, plus a small lift. The sweep is the "liquid" read — a
-    static highlight looks like a printed gradient, a moving one looks like a
-    curved surface turning under a light.
-
-    Driven by `transform`/`opacity` only, so it composites on the GPU and the
-    global reduced-motion rule flattens it to an instant state change.
-  */
-  .glass-interactive {
-    overflow: hidden;
+  /* Hover: the rule darkens to ink and the control nudges up. */
+  .interactive {
     transition:
-      background-color 300ms ease,
-      border-color 300ms ease,
-      box-shadow 300ms ease,
-      transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
-  .glass-interactive::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      var(--glass-specular) 47%,
-      transparent 64%
-    );
-    opacity: 0;
-    transform: translate3d(-35%, 0, 0);
-    transition:
-      opacity 400ms ease,
-      transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-
-  .glass-interactive:hover,
-  .glass-interactive:focus-visible {
-    background-color: var(--glass-fill-strong);
-    border-color: var(--glass-edge-strong);
+  .interactive:hover,
+  .interactive:focus-visible {
+    border-color: var(--color-fg);
     transform: translateY(-1px);
   }
 
-  .glass-interactive:hover::after,
-  .glass-interactive:focus-visible::after {
-    opacity: 0.7;
-    transform: translate3d(35%, 0, 0);
-  }
-
-  .glass-interactive:active {
+  .interactive:active {
     transform: translateY(0);
   }
 
-  /*
-    Social links — the glyph carries its platform's brand colour.
-
-    Set here rather than with a Tailwind text utility because utilities sit in a
-    later cascade layer and would override whatever this set; the call sites
-    deliberately pass no `text-*` class. `currentColor` then feeds the hover
-    tint, so each pill lights up in its own colour without four more rules.
-  */
   .social-link[data-social="instagram"] {
     color: var(--brand-instagram);
   }
-  .social-link[data-social="behance"] {
-    color: var(--brand-behance);
-  }
-  .social-link[data-social="vimeo"] {
-    color: var(--brand-vimeo);
-  }
-  .social-link[data-social="youtube"] {
-    color: var(--brand-youtube);
-  }
 
-  /*
-    Hover: the rim picks up the brand colour, the fill uses the system's own
-    stronger glass.
-
-    The fill is deliberately NOT `color-mix(… currentColor …)`. Lightning CSS
-    cannot compute that statically, so it emits `background-color: currentColor`
-    as the pre-`color-mix` fallback — which on an older engine floods the pill
-    with the full brand colour while the glyph is also `currentColor`, leaving an
-    invisible icon. `--glass-fill-strong` has no such failure mode and matches
-    every other interactive glass surface. The border's generated fallback is
-    just a solid brand rim, which is fine.
-  */
   .social-link:hover,
   .social-link:focus-visible {
-    border-color: color-mix(in srgb, currentColor 45%, transparent);
-    background-color: var(--glass-fill-strong);
+    border-color: currentColor;
   }
 
-  /*
-    Glass drawn on top of photography, in both themes.
-
-    Separate from `.glass` because the fill has to be dark rather than
-    theme-derived: a caption plate over a photograph needs to darken what is
-    behind it to keep white text legible, whichever theme the page is in. Pair
-    with `.on-media` so the text inside picks up the dark palette too.
-  */
-  .glass-plate {
+  /* Caption plate over a photograph (both themes). Pair with `.on-media`. */
+  .caption-plate {
     position: relative;
-    border: 1px solid rgb(255 255 255 / 0.14);
-    border-radius: var(--radius-glass-sm);
-    background-color: rgb(10 10 10 / 0.34);
-    backdrop-filter: blur(16px) saturate(160%);
-    box-shadow:
-      0 10px 30px -14px rgb(0 0 0 / 0.7),
-      inset 0 1px 0 0 rgb(255 255 255 / 0.16);
+    border-radius: var(--radius-panel-sm);
+    background-color: rgb(18 17 14 / 0.72);
   }
 
-  /*
-    Form controls. Self-contained (no pseudo-elements — form controls can't
-    render them), and the focus state trades the neutral edge for the accent.
-  */
-  .glass-field {
+  /* Form controls: an underline-weight frame that turns green on focus. */
+  .field {
     width: 100%;
-    border: 1px solid var(--glass-edge);
-    border-radius: var(--radius-glass-sm);
-    background-color: var(--glass-fill);
-    backdrop-filter: blur(14px) saturate(var(--glass-saturate));
-    box-shadow:
-      inset 0 1px 0 0 var(--glass-specular),
-      inset 0 -1px 0 0 var(--glass-shade);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-panel-sm);
+    background-color: var(--color-surface);
     transition:
       border-color 200ms ease,
-      background-color 200ms ease,
       box-shadow 200ms ease;
   }
 
-  .glass-field:hover {
-    border-color: var(--glass-edge-strong);
+  .field:hover {
+    border-color: var(--color-muted);
   }
 
-  .glass-field:focus {
+  .field:focus {
     outline: none;
     border-color: var(--color-accent);
-    background-color: var(--glass-fill-strong);
-    box-shadow:
-      inset 0 1px 0 0 var(--glass-specular),
-      0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
   }
 
-  /*
-    Opaque media — photographs and video — never needs a backdrop blur (nothing
-    shows through), so this is the rim and shadow only. It is what keeps images
-    part of the same material system as the panels around them.
-  */
-  .glass-media {
+  /* Photographs and video: no rim, no shadow — the image is the edge. */
+  .frame {
     overflow: hidden;
-    border: 1px solid var(--glass-edge);
     border-radius: var(--radius-media);
-    background-color: var(--color-surface);
-    box-shadow: var(--glass-shadow);
+    background-color: var(--color-line);
+  }
+
+  /* White logo artwork flips to ink on the light (default) palette. */
+  :root:not([data-theme="dark"]) .brand-mark {
+    filter: brightness(0);
   }
 
   /*
-    The wordmark.
-
-    The artwork is a single-colour white mark on transparency, which is right on
-    the dark palette and invisible on the light one. `brightness(0)` forces every
-    RGB channel to zero while leaving alpha untouched, so the mark flips to black
-    and its antialiased edges stay smooth — one file, one request, correct in
-    both themes. A second inverted PNG would mean shipping two files and either
-    downloading both or flashing the wrong one before CSS resolves.
-
-    Replace this with a `currentColor` SVG if the vector artwork ever turns up:
-    the mark would then take `--color-fg` exactly, and be crisp at any size.
+    Masonry photo wall on the homepage. CSS columns rather than a grid, so
+    mixed portrait and square frames pack without cropping any of them.
   */
-  :root[data-theme="light"] .brand-mark {
-    filter: brightness(0);
+  .photo-wall {
+    columns: 2;
+    column-gap: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .photo-wall {
+      columns: 3;
+      column-gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .photo-wall {
+      columns: 4;
+    }
+  }
+
+  .photo-wall > * {
+    break-inside: avoid;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .photo-wall > * {
+      margin-bottom: 0.75rem;
+    }
   }
 
   /* ------------------------------------------------------------------ */
   /* Client logo marquee                                                 */
   /* ------------------------------------------------------------------ */
 
-  /*
-    One continuous horizontal line of client logos, drifting slowly and looping
-    forever.
-
-    The loop is two identical rows inside a track that translates by exactly half
-    its own width. At the end of a cycle the second row sits precisely where the
-    first one started, so restarting the animation is invisible — no snap, no
-    gap, no JavaScript measuring anything.
-  */
+  /* Two identical rows translating by exactly half the track: a seamless
+     loop with no JavaScript. Spacing lives on the items, not as `gap`, or
+     half the track would no longer be exactly one row. */
   .logo-marquee {
     overflow: hidden;
-    /* Fade the ends rather than chopping them, so the row reads as continuing
-       past the panel instead of being clipped by it. No hand-written `-webkit-`
-       alias — see the note on `.glass`. */
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 6%,
-      black 94%,
-      transparent
-    );
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
   }
 
   .logo-marquee-track {
@@ -633,19 +327,11 @@
     animation: logo-marquee var(--logo-marquee-duration, 64s) linear infinite;
   }
 
-  /* Let someone stop the row to actually look at a logo. `focus-within` covers
-     the keyboard once these logos have links on them. */
   .logo-marquee:hover .logo-marquee-track,
   .logo-marquee:focus-within .logo-marquee-track {
     animation-play-state: paused;
   }
 
-  /*
-    No `gap` here, deliberately — the spacing lives on the items instead. With a
-    gap, the track would be two rows *plus one extra gap between them*, so half
-    its width is no longer exactly one row, and the loop would jump by half a gap
-    every cycle.
-  */
   .logo-marquee-row {
     display: flex;
     flex: none;
@@ -661,14 +347,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    /*
-      The global reduced-motion rule collapses every animation to 0.01ms and one
-      iteration. For a marquee that does not mean "no motion" — it means jumping
-      straight to the -50% end state and staying there, with the row parked
-      mid-scroll. Turn the animation off outright and hand the row back as
-      something the visitor can scroll at their own pace, with the duplicate
-      set removed so nothing is listed twice.
-    */
     .logo-marquee {
       overflow-x: auto;
     }
@@ -680,16 +358,8 @@
     }
   }
 
-  /*
-    The theme switcher shows one icon: whichever matches the current choice.
-
-    All three are in the DOM and CSS picks the visible one off
-    `html[data-theme-choice]` — the attribute the inline script sets before
-    first paint. Deriving it from React state instead would render the server's
-    default icon and then swap it on hydration, which is precisely the flash the
-    rest of the theming setup exists to avoid. The component still reads the
-    attribute back, but only to keep the button's `aria-label` truthful.
-  */
+  /* The theme switcher shows whichever icon matches the stored choice — set
+     by the inline script before first paint, so there is no flash. */
   .theme-icon {
     display: none;
   }
@@ -702,7 +372,6 @@
 }
 
 @layer utilities {
-  /* Skip link: off-screen until focused. */
   .skip-link {
     position: absolute;
     left: -9999px;
@@ -714,72 +383,23 @@
     top: 1rem;
   }
 
-  /*
-    Keeps hero text legible over arbitrary photography without washing the image
-    out with a flat overlay.
-
-    Deliberately hard-coded dark in both themes: these sit on photographs, and a
-    light scrim would wash the image out while leaving the light text on top
-    unreadable. Pair every scrim with `.on-media` on the content above it.
-  */
+  /* Hard-coded dark in both themes: these sit on photographs. Pair every
+     scrim with `.on-media` on the content above it. */
   .scrim {
     background: linear-gradient(
       to top,
-      rgb(10 10 10 / 0.9) 0%,
-      rgb(10 10 10 / 0.5) 35%,
-      rgb(10 10 10 / 0.15) 65%,
-      rgb(10 10 10 / 0.35) 100%
+      rgb(18 17 14 / 0.85) 0%,
+      rgb(18 17 14 / 0.4) 35%,
+      transparent 70%
     );
   }
 
   .scrim-tile {
     background: linear-gradient(
       to top,
-      rgb(10 10 10 / 0.8) 0%,
-      rgb(10 10 10 / 0.2) 55%,
+      rgb(18 17 14 / 0.75) 0%,
+      rgb(18 17 14 / 0.15) 50%,
       transparent 100%
     );
-  }
-}
-
-/*
-  Two fallbacks, both of which must land on *opaque* surfaces rather than on a
-  thin tint over nothing:
-
-  1. No `backdrop-filter` (older Firefox with the pref off, some embedded
-     webviews). Without the blur, a 5% white film over a photograph is not a
-     surface — it is unreadable text on a picture.
-  2. `prefers-reduced-transparency`. A real accessibility setting, and the whole
-     point of it is that see-through chrome is hard to read.
-
-  Both resolve the same way: swap the tint for a near-solid mix of the page
-  background and drop the blur.
-*/
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass,
-  .glass-field {
-    background-color: color-mix(in srgb, var(--color-bg) 92%, var(--color-fg));
-  }
-  .glass-plate {
-    background-color: rgb(10 10 10 / 0.78);
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .glass,
-  .glass-field {
-    background-color: color-mix(in srgb, var(--color-bg) 92%, var(--color-fg));
-    backdrop-filter: none;
-  }
-  .glass::before,
-  .glass-interactive::after {
-    display: none;
-  }
-  .glass-plate {
-    background-color: rgb(10 10 10 / 0.8);
-    backdrop-filter: none;
-  }
-  body::before {
-    display: none;
   }
 }

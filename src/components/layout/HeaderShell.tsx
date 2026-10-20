@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * The sticky wrapper around the glass header bar, which retracts on downward
+ * The sticky wrapper around the panel header bar, which retracts on downward
  * scroll and returns on upward scroll.
  *
  * Split out from `Header` so the header itself can stay a Server Component —

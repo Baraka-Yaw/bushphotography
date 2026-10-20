@@ -15,14 +15,14 @@ export type ThemeChoice = "light" | "dark" | "system";
 export const THEME_STORAGE_KEY = "theme";
 
 /**
- * Dark, not "system" — the site is dark by design (spec Section 5), so a
- * first-time visitor on a light OS still gets the intended look. Light and
- * system are opt-ins from the switcher.
+ * Light, not "system" — the site is a light editorial design, so a first-time
+ * visitor on a dark OS still gets the intended look. Dark and system are
+ * opt-ins from the switcher.
  *
  * This is also the palette a visitor with JavaScript disabled sees, because the
- * stylesheet's base palette is dark and nothing rewrites `data-theme` for them.
+ * stylesheet's base palette is light and nothing rewrites `data-theme` for them.
  */
-export const DEFAULT_THEME_CHOICE: ThemeChoice = "dark";
+export const DEFAULT_THEME_CHOICE: ThemeChoice = "light";
 
 export function isThemeChoice(value: unknown): value is ThemeChoice {
   return value === "light" || value === "dark" || value === "system";

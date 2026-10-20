@@ -45,7 +45,7 @@ export function MobileNav() {
         onClick={() => setOpen(true)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="glass-inset glass-pill flex h-11 w-11 items-center justify-center text-fg md:hidden"
+        className="chip pill flex h-11 w-11 items-center justify-center text-fg md:hidden"
       >
         <span className="sr-only">Open menu</span>
         <svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true">
@@ -63,12 +63,12 @@ export function MobileNav() {
           if (event.target === dialogRef.current) setOpen(false);
         }}
         className={cn(
-          // A glass sheet inset from the viewport edge rather than an opaque
+          // A panel sheet inset from the viewport edge rather than an opaque
           // full-screen panel — the page stays visible, and blurred, around it.
-          "glass glass-strong m-3 h-[calc(100%-1.5rem)] max-h-none w-[calc(100%-1.5rem)] max-w-none p-0 text-fg",
+          "panel panel-strong m-3 h-[calc(100%-1.5rem)] max-h-none w-[calc(100%-1.5rem)] max-w-none p-0 text-fg",
           "overflow-hidden",
           // The backdrop blurs the page behind the sheet, so the two layers of
-          // glass read as depth rather than as one flat overlay.
+          // panel read as depth rather than as one flat overlay.
           "backdrop:bg-bg/40 backdrop:backdrop-blur-md",
         )}
       >
@@ -78,7 +78,7 @@ export function MobileNav() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="glass-inset glass-pill flex h-11 w-11 items-center justify-center"
+              className="chip pill flex h-11 w-11 items-center justify-center"
             >
               <span className="sr-only">Close menu</span>
               <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">

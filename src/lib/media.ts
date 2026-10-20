@@ -51,6 +51,10 @@ export function aspectRatio(ref: { width: number; height: number }): number {
 export const IMAGE_SIZES = {
   /** Full-bleed hero. */
   full: "100vw",
+  /** Split hero: full width on mobile, the right-hand half above `lg`. */
+  heroSplit: "(max-width: 1024px) 100vw, 50vw",
+  /** Homepage masonry wall: 2 columns mobile, 3 tablet, 4 wide. */
+  wall: "(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw",
   /** Work grid + homepage highlights: 1 col mobile, 2 tablet, 3 desktop. */
   grid: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
   /** Featured category tiles: 2 col mobile, 3 desktop. */

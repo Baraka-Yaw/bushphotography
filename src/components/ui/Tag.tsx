@@ -3,9 +3,8 @@ import { cn } from "@/lib/utils";
 /**
  * Small meta label — genre tags, category chips on tiles.
  *
- * `glass-inset`, not `glass`: these are small and appear in runs of five or six,
- * and a per-chip backdrop blur is a full filter pass each. The tint and specular
- * edge carry the material at this size.
+ * `chip`, not `panel`: a hairline rule with no fill, which is all a label
+ * this small needs.
  */
 export function Tag({
   children,
@@ -19,7 +18,7 @@ export function Tag({
   return (
     <span
       className={cn(
-        "glass-inset glass-pill inline-block px-3 py-1 text-[10px] uppercase tracking-[0.16em]",
+        "chip pill inline-block px-3 py-1 text-[10px] uppercase tracking-[0.16em]",
         tone === "accent" ? "border-accent/40 text-accent" : "text-muted",
         className,
       )}

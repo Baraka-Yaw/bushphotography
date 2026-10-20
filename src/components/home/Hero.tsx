@@ -7,52 +7,59 @@ import { IMAGE_SIZES, resolveImage } from "@/lib/media";
 import type { SiteSettings } from "@/types/content";
 
 /**
- * Full-bleed homepage hero (spec 3.1).
+ * Split editorial hero: the headline set large on the page colour, the
+ * photograph beside it rather than behind it. No scrim — the type sits on
+ * paper, so it reads in both themes without `.on-media`.
  *
- * The spec says to lead with motion if there is reel footage and with a still if
- * not. That branch is data-driven off `settings.heroMedia`, so the day a reel
- * exists it is a content change, not a code change.
+ * Mobile-first order is headline → photograph, so the promise and the "Book"
+ * action are above the fold on a phone; from `lg` the two sit side by side.
  *
- * The still is the LCP element on the most-visited page, so it is the one image
- * on the site marked `priority` — it must not wait for lazy-loading.
+ * `heroMedia` may be a video; `<ProjectVideo>` handles that branch, so a reel
+ * is a content change, not a code change. The still is the LCP element on the
+ * most-visited page, so it is the one image on the site marked `priority`.
  */
 export function Hero({ settings }: { settings: SiteSettings }) {
   const media = settings.heroMedia;
 
   return (
-    <section className="relative flex min-h-[82svh] items-end overflow-hidden sm:min-h-[88svh]">
-      <div className="absolute inset-0">
-        {media.kind === "video" ? (
-          <ProjectVideo media={media} mode="background" priority className="h-full w-full" />
-        ) : (
-          <Image
-            src={resolveImage(media)}
-            alt={media.alt}
-            width={media.width}
-            height={media.height}
-            sizes={IMAGE_SIZES.full}
-            priority
-            // Tells the browser to start fetching this before it finishes parsing
-            // the rest of the document.
-            fetchPriority="high"
-            // Biased upward: the client's work is portrait-format, and a centred
-            // crop to a wide hero cuts through faces.
-            className="h-full w-full object-cover object-[50%_30%]"
-          />
-        )}
-        <div aria-hidden="true" className="scrim absolute inset-0" />
-      </div>
-
-      {/* `on-media` keeps this text on the dark palette in both themes — it sits
-          on the scrim over the photograph, not on the page background. */}
-      <Container wide className="on-media relative pb-16 pt-32 sm:pb-24">
-        <div className="mt-9 flex flex-wrap gap-3">
-          <ButtonLink href="/work">View the work</ButtonLink>
-          <ButtonLink href="/packages" variant="outline">
-            Book a session
-          </ButtonLink>
+    <Container wide as="section" className="pt-10 sm:pt-14">
+      <div className="grid gap-8 lg:grid-cols-2 lg:items-end lg:gap-14">
+        <div className="lg:pb-6">
+          <p className="eyebrow">{settings.tagline}</p>
+          {/* Sized to the column, not the viewport: from `lg` the headline has
+              half the width, and its longest word ("BEAUTIFULLY.") must fit. */}
+          <h1 className="mt-5 font-display text-[clamp(2.75rem,13vw,6rem)] lg:text-[min(6.2vw,7.5rem)]">
+            {settings.heroHeadline}
+          </h1>
+          <p className="mt-6 max-w-md text-base text-muted sm:text-lg">
+            Weddings, traditional marriages, graduations, portraits and events
+            across {settings.location} — edited and retouched, every time.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <ButtonLink href="/packages">Book a session</ButtonLink>
+            <ButtonLink href="/work" variant="outline">
+              See the work
+            </ButtonLink>
+          </div>
         </div>
-      </Container>
-    </section>
+
+        <div className="frame relative aspect-[4/5] lg:aspect-[4/5] lg:max-h-[82svh]">
+          {media.kind === "video" ? (
+            <ProjectVideo media={media} mode="background" priority className="h-full w-full" />
+          ) : (
+            <Image
+              src={resolveImage(media)}
+              alt={media.alt}
+              fill
+              sizes={IMAGE_SIZES.heroSplit}
+              priority
+              // Start fetching before the rest of the document is parsed.
+              fetchPriority="high"
+              className="object-cover object-[50%_30%]"
+            />
+          )}
+        </div>
+      </div>
+    </Container>
   );
 }

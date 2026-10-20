@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import { DM_Sans, Oswald } from "next/font/google";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -9,18 +9,18 @@ import { siteUrl } from "@/lib/utils";
 import "./globals.css";
 
 /**
- * Display face for headings, clean sans for body — spec Section 5.
- * Both are wired to CSS variables consumed by the `@theme` block in globals.css,
- * so switching to the client's brand fonts is a change to these two calls.
+ * A condensed grotesque in capitals for display, a warm geometric sans for
+ * body. Both are wired to CSS variables consumed by the `@theme` block in
+ * globals.css, so switching faces is a change to these two calls.
  */
-const displayFace = Instrument_Serif({
+const displayFace = Oswald({
   variable: "--font-display-face",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["500", "600"],
   display: "swap",
 });
 
-const sansFace = Inter({
+const sansFace = DM_Sans({
   variable: "--font-sans-face",
   subsets: ["latin"],
   display: "swap",
@@ -75,11 +75,10 @@ export default function RootLayout({
             useEffect would both land after the first paint and flash. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      {/* No `bg-bg` here: the page background lives on <html> so that the
-          ambient wash `body::before` paints (see globals.css) is not covered by
-          body's own background layer. */}
+      {/* The page background lives on <html> (globals.css), so overscroll and
+          the area behind the header match the page. */}
       <body className="flex min-h-full flex-col text-fg">
-        <a href="#main" className="skip-link bg-accent px-4 py-2 text-sm text-bg">
+        <a href="#main" className="skip-link bg-accent px-4 py-2 text-sm text-on-accent">
           Skip to content
         </a>
         <Header />
