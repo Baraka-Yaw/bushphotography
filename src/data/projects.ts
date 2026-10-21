@@ -40,6 +40,17 @@ const katonPraise: ImageRef[] = [
   img(`${KP}-10.jpg`, "Singer in a cream suit with one foot raised on a stage monitor, the KATON sign behind him", 1440, 1800),
   img(`${KP}-11.jpg`, "Two performers sharing the stage between tall blue and red light columns", 1440, 1800),
   img(`${KP}-12.jpg`, "The full stage from the crowd: band, flame graphics and the Katon Praise logo under green lights", 1439, 1799),
+  img(`${KP}-13.jpg`, "Singer in a yellow suit with one hand raised, green light bars glowing behind her", 1439, 1799),
+  img(`${KP}-14.jpg`, "Singer in yellow smiling mid-song through drifting stage haze", 1439, 1799),
+  img(`${KP}-15.jpg`, "Wide shot of the singer in yellow on stage before towering flame graphics", 1439, 1799),
+  img(`${KP}-16.jpg`, "Singer in yellow and a performer in a red jacket sharing the stage beneath the Katon Praise logo", 1440, 1800),
+  img(`${KP}-17.jpg`, "The singer in yellow seen from behind, walking towards a performer in red", 1440, 1800),
+  img(`${KP}-18.jpg`, "Singer in a cream suit crouched low, singing into the microphone under blue light", 1440, 1800),
+  img(`${KP}-19.jpg`, "Singer in a cream suit pointing out to the crowd beside a lit sign", 1440, 1800),
+  img(`${KP}-20.jpg`, "Performer in a cap with one arm outstretched in front of the Katon Praise screen", 1440, 1440),
+  img(`${KP}-21.jpg`, "The band on stage: keyboard player and guitarist behind the performer in a cap", 1440, 1440),
+  img(`${KP}-22.jpg`, "Two performers embracing on stage between blue and red light columns", 1440, 1800),
+  img(`${KP}-23.jpg`, "Performer in a cap seen from behind, facing a wall of blue stage lights", 1440, 1440),
 ];
 
 const IW = "/work/in-white/in-white";

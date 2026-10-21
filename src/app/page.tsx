@@ -21,7 +21,7 @@ export default async function HomePage() {
   // Independent reads — resolve together rather than in series.
   const [settings, wall, categories, packages, logos] = await Promise.all([
     getSiteSettings(),
-    getPhotoWall(16),
+    getPhotoWall(20),
     getCategories(),
     getPackages(),
     getClientLogos(),
