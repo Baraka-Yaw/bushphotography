@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Oswald } from "next/font/google";
+import localFont from "next/font/local";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -12,18 +12,28 @@ import "./globals.css";
  * A condensed grotesque in capitals for display, a warm geometric sans for
  * body. Both are wired to CSS variables consumed by the `@theme` block in
  * globals.css, so switching faces is a change to these two calls.
+ *
+ * Self-hosted from ./fonts (latin subsets, OFL) rather than `next/font/google`:
+ * Vercel's Turbopack build fails to resolve the Google loader's font URLs, and
+ * local files also keep the build off the network.
  */
-const displayFace = Oswald({
+const displayFace = localFont({
   variable: "--font-display-face",
-  subsets: ["latin"],
-  weight: ["500", "600"],
+  src: [
+    { path: "./fonts/oswald-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/oswald-latin-600-normal.woff2", weight: "600", style: "normal" },
+  ],
   display: "swap",
+  fallback: ["Arial Narrow", "sans-serif"],
 });
 
-const sansFace = DM_Sans({
+const sansFace = localFont({
   variable: "--font-sans-face",
-  subsets: ["latin"],
+  src: "./fonts/dm-sans-latin-wght-normal.woff2",
+  weight: "100 1000",
+  style: "normal",
   display: "swap",
+  fallback: ["system-ui", "sans-serif"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
